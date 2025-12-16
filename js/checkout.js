@@ -1,9 +1,7 @@
-
-// Exercise 6
-
-const regExLetters = /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/;
-const regExNumbers = /^\d+$/;
-const regExEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+"use strict";
+const regExLetters 	= /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/;
+const regExNumbers 	= /^\d+$/;
+const regExEmail 	= /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const regExPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/;
 
 const validate = (id, value) => {
@@ -22,7 +20,7 @@ const validate = (id, value) => {
 		case 'fPassword':
 			if (!regExPassword.test(value)) error = 1
 			break;
-		case 'fPassword':
+		case 'fEmail':
 			if (!regExEmail.test(value)) error = 1
 			break;
 	}
@@ -37,7 +35,7 @@ document.getElementById('form-checkout').addEventListener('submit', function(e) 
 
 	const formInputs = document.getElementById('form-checkout').querySelectorAll('input');
 	formInputs.forEach(element => {
-		let validation = validate(element.id, element.value)
+		let validation = validate(element.id, element.value.trim());
 		if (validation.error == 1) {
 			document.getElementById(element.id).classList.remove('is-valid')
 			document.getElementById(element.id).classList.add('is-invalid')
@@ -48,6 +46,6 @@ document.getElementById('form-checkout').addEventListener('submit', function(e) 
 		error += validation.error
 	});
 
-	error > 0 ? alert('Error') : alert('Submit OK')
+	error > 0 ? alert('Revisa los errores en el formulario') : alert('Formulario enviado correctamente');
 
 });

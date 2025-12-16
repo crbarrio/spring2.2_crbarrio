@@ -1,86 +1,17 @@
-// If you have time, you can move this variable "products" to a json or js file and load the data in this js. It will look more professional
-const products = [
-    {
-        id: 1,
-        name: 'cooking oil',
-        price: 10.5,
-        type: 'grocery',
-        offer: {
-            number: 3,
-            percent: 20
-        }
-    },
-    {
-        id: 2,
-        name: 'Pasta',
-        price: 6.25,
-        type: 'grocery'
-    },
-    {
-        id: 3,
-        name: 'Instant cupcake mixture',
-        price: 5,
-        type: 'grocery',
-        offer: {
-            number: 10,
-            percent: 30
-        }
-    },
-    {
-        id: 4,
-        name: 'All-in-one',
-        price: 260,
-        type: 'beauty'
-    },
-    {
-        id: 5,
-        name: 'Zero Make-up Kit',
-        price: 20.5,
-        type: 'beauty'
-    },
-    {
-        id: 6,
-        name: 'Lip Tints',
-        price: 12.75,
-        type: 'beauty'
-    },
-    {
-        id: 7,
-        name: 'Lawn Dress',
-        price: 15,
-        type: 'clothes'
-    },
-    {
-        id: 8,
-        name: 'Lawn-Chiffon Combo',
-        price: 19.99,
-        type: 'clothes'
-    },
-    {
-        id: 9,
-        name: 'Toddler Frock',
-        price: 9.99,
-        type: 'clothes'
-    }
-]
-
-// => Reminder, it's extremely important that you debug your code. 
-// ** It will save you a lot of time and frustration!
-// ** You'll understand the code better than with console.log(), and you'll also find errors faster. 
-// ** Don't hesitate to seek help from your peers or your mentor if you still struggle with debugging.
-
-// Improved version of cartList. Cart is an array of products (objects), but each one has a quantity field to define its quantity, so these products are not repeated.
+"use strict";
+let products = [];
 const cart = [];
-
 let total = 0;
 
-// Exercise 1
-const buy = (id) => {
-    // 1. Loop for to the array products to get the item to add to cart
-    const product = products.find(element => element.id == id)
-    let newItem = {...product}
+async function loadProducts() {
+    const response = await fetch('db/products.json');
+    products = await response.json();
+}
 
-    // 2. Add found product to the cart array
+const buy = (id) => {
+    const product = products.find(element => element.id == id)
+    const newItem = {...product}
+
     let cartProduct = cart.find(element => element.id == id)
     if (cartProduct) {
         cartProduct.quantity++
@@ -92,21 +23,18 @@ const buy = (id) => {
     updateCartBadge();
 }
 
-// Exercise 2
 const cleanCart = () =>  {
     cart.length = 0;
     total = 0;
     printCart();
-    showProductsPage()
 }
 
-// Exercise 3
+
 const calculateTotal = () =>  {
     // Calculate total price of the cart using the "cartList" array
     total = cart.reduce((total, item) => total + item.subtotalWithDiscount, 0).toFixed(2)
 }
 
-// Exercise 4
 const applyPromotionsCart = () =>  {
     // Apply promotions to each item in the array "cart"
     cart.forEach(element => {
@@ -126,7 +54,24 @@ const increaseQuantity = (id) => {
     printCart()
 }
 
-// Exercise 5
+const removeFromCart = (id) => {
+    let item = cart.find(element => element.id == id)
+
+    if (item.quantity == 1) {
+        let index = cart.findIndex(element => element.id == id)
+        cart.splice(index, 1)
+    } else {
+        item.quantity--
+    }
+
+    printCart()
+}
+
+const updateCartBadge = () => {
+    let totalItems = cart.reduce((total, item) => total + item.quantity, 0)
+    document.getElementById('count_product').innerText = totalItems
+}
+
 const printCart = () => {
     // Fill the shopping cart modal manipulating the shopping cart dom
 
@@ -174,44 +119,13 @@ const printCart = () => {
         document.getElementById('total_div').classList.add('d-none')
         document.getElementById('checkout-btn').classList.add('d-none')
         document.getElementById('clean-cart').classList.add('d-none')
+        showProductsPage()
     }
 
     document.getElementById('cart_list').innerHTML = html;
     document.getElementById('total_price').innerHTML = total;
     updateCartBadge()
 }
-
-
-// ** Nivell II **
-
-// Exercise 7
-const removeFromCart = (id) => {
-    let item = cart.find(element => element.id == id)
-
-    if (item.quantity == 1) {
-        let index = cart.findIndex(element => element.id == id)
-        cart.splice(index, 1)
-    } else {
-        item.quantity--
-    }
-
-    printCart()
-}
-
-const open_modal = () =>  {
-    printCart();
-}
-
-
-// Extra
-
-const updateCartBadge = () => {
-    let totalItems = cart.reduce((total, item) => total + item.quantity, 0)
-    document.getElementById('count_product').innerText = totalItems
-}
-
-
-// Event Listeners
 
 const showProductsPage = () => {
     document.getElementById('checkout-page').classList.add('d-none')
@@ -224,31 +138,29 @@ const showCheckoutPage = () => {
     document.getElementById('product-page').classList.add('d-none')
 }
 
+function initShop() {
 
-const addToCartButtons = document.getElementsByClassName('add-to-cart')
-for (let i = 0; i < addToCartButtons.length; i++) {
-    addToCartButtons[i].addEventListener('click', () => {
-        buy(addToCartButtons[i].getAttribute('data-product-id'))
-    })
+    const addToCartButtons = document.getElementsByClassName('add-to-cart')
+    for (let i = 0; i < addToCartButtons.length; i++) {
+        addToCartButtons[i].addEventListener('click', () => {
+            buy(addToCartButtons[i].getAttribute('data-product-id'))
+        })
+    }
+
+    document.getElementById('cartModal').addEventListener('show.bs.modal', printCart);
+    document.getElementById('clean-cart').addEventListener('click', cleanCart);
+    document.getElementById('checkout-btn').addEventListener('click', showCheckoutPage);
+
+    const navLinks = document.getElementsByClassName('nav-link')
+    for (let i = 0; i < navLinks.length; i++) {
+        navLinks[i].addEventListener('click', showProductsPage);
+    }
 }
 
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadProducts();
+  initShop();
+});
 
-document.getElementById('cartModal').addEventListener('show.bs.modal', () => {
-    printCart()
-})
 
 
-document.getElementById('clean-cart').addEventListener('click', () => {
-    cleanCart()
-})
-
-document.getElementById('checkout-btn').addEventListener('click', () => {
-    showCheckoutPage()
-})
-
-const navLinks = document.getElementsByClassName('nav-link')
-for (let i = 0; i < navLinks.length; i++) {
-    navLinks[i].addEventListener('click', () => {
-        showProductsPage()
-    })
-}
