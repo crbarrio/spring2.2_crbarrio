@@ -169,3 +169,16 @@ document.getElementById('cartModal').addEventListener('show.bs.modal', () => {
 document.getElementById('clean-cart').addEventListener('click', () => {
     cleanCart()
 })
+
+document.getElementById('checkout-btn').addEventListener('click', () => {
+    document.getElementById('checkout-page').classList.remove('d-none')
+    document.getElementById('product-page').classList.add('d-none')
+})
+
+const navLinks = document.getElementsByClassName('nav-link')
+for (let i = 0; i < navLinks.length; i++) {
+    navLinks[i].addEventListener('click', () => {
+        document.getElementById('checkout-page').classList.add('d-none')
+        document.getElementById('product-page').classList.remove('d-none')
+    })
+}

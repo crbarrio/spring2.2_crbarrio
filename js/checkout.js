@@ -1,28 +1,55 @@
 
 // Exercise 6
-const validate = () => {
+
+const regExLetters = /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/;
+const regExNumbers = /^\d+$/;
+const regExEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const regExPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/;
+
+const validate = (id, value) => {
 	let error = 0;
-	// Get the input fields
-	const fName = document.getElementById("fName");
-	const fEmail = document.getElementById("fEmail");
 
-	// Get the error elements
-	const errorName = document.getElementById("errorName");
-	const errorEmail = document.getElementById("errorEmail");  
-	
-	// Validate fields entered by the user: name, phone, password, and email
-	if(fName.value.trim() == ""){
-		error++;
+	if (!value || value.length < 3) return {id, error: 1}
+
+	switch (id) {
+		case 'fName':
+		case 'fLastN':
+			if (!regExLetters.test(value)) error = 1
+			break;
+		case 'fPhone':
+			if (!regExNumbers.test(value)) error = 1
+			break;
+		case 'fPassword':
+			if (!regExPassword.test(value)) error = 1
+			break;
+		case 'fPassword':
+			if (!regExEmail.test(value)) error = 1
+			break;
 	}
 
-	if(fEmail.value == ""){
-		error++;
-	}
-	 
-	if(error>0){
-		alert("Please fill in all required fields.");
-	}else{
-		alert("Form submitted successfully");
-	}
-
+	return {id, error}
 }
+
+document.getElementById('form-checkout').addEventListener('submit', function(e) {
+	e.preventDefault();
+
+	let error = 0;
+
+	const formInputs = Array.from(document.getElementById('form-checkout').elements);
+	formInputs.forEach(element => {
+		let validation = validate(element.id, element.value)
+		if (validation.error == 1) {
+			document.getElementById(element.id).classList.remove('is-valid')
+			document.getElementById(element.id).classList.add('is-invalid')
+		} else {
+			document.getElementById(element.id).classList.add('is-valid')
+			document.getElementById(element.id).classList.remove('is-invalid')
+		}
+		error += validation.error
+
+
+	});
+
+	error > 0 ? alert('Error') : alert('Submit OK')
+
+});
