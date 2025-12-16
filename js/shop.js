@@ -72,7 +72,7 @@ const products = [
 // Improved version of cartList. Cart is an array of products (objects), but each one has a quantity field to define its quantity, so these products are not repeated.
 const cart = [];
 
-const total = 0;
+let total = 0;
 
 // Exercise 1
 const buy = (id) => {
@@ -94,32 +94,50 @@ const buy = (id) => {
 // Exercise 2
 const cleanCart = () =>  {
     cart.length = 0;
+    total = 0;
+    printCart();
 }
 
 // Exercise 3
 const calculateTotal = () =>  {
     // Calculate total price of the cart using the "cartList" array
-    return cart.reduce((total, item) => total + (item.subtotalWithDiscount ? item.subtotalWithDiscount : item.price * item.quantity), 0)
+    total = cart.reduce((total, item) => total + item.subtotalWithDiscount, 0).toFixed(2)
 }
 
 // Exercise 4
 const applyPromotionsCart = () =>  {
     // Apply promotions to each item in the array "cart"
     cart.forEach(element => {
-        if (element.offer) {
-            if (element.offer.number >= element.quantity) {
-                let subtotalWithDiscount = element.quantity * (element.price * ((100 - element.offer.percent) /100))
-                element.subtotalWithDiscount = subtotalWithDiscount
-            }
-        }
+        let subtotalWithDiscount = element.quantity * element.price
+        if (element.offer && element.quantity >= element.offer.number) {
+            subtotalWithDiscount = element.quantity * (element.price * ((100 - element.offer.percent) /100))
+        } 
+        element.subtotalWithDiscount = subtotalWithDiscount
     });
 }
-
 
 // Exercise 5
 const printCart = () => {
     // Fill the shopping cart modal manipulating the shopping cart dom
+    applyPromotionsCart();
+    calculateTotal();
+
+    let html = '';
+    cart.forEach(element => {
+        html += `<tr>
+            <th scope="row">${element.name}</th>
+            <td>$${element.price}</td>
+            <td>${element.quantity}</td>
+            <td>$${element.subtotalWithDiscount.toFixed(2)}</td>
+        </tr>`
+        
+    });
+
+    document.getElementById('cart_list').innerHTML = html;
+    document.getElementById('total_price').innerHTML = total;
+
 }
+
 
 
 // ** Nivell II **
@@ -140,5 +158,14 @@ for (let i = 0; i < addToCartButtons.length; i++) {
     addToCartButtons[i].addEventListener('click', () => {
         buy(addToCartButtons[i].getAttribute('data-product-id'))
     })
-    
 }
+
+
+document.getElementById('cartModal').addEventListener('show.bs.modal', () => {
+    printCart()
+})
+
+
+document.getElementById('clean-cart').addEventListener('click', () => {
+    cleanCart()
+})
