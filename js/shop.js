@@ -39,13 +39,16 @@ const applyPromotionsCart = () =>  {
     // Apply promotions to each item in the array "cart"
     cart.forEach(element => {
         let subtotalWithDiscount = element.quantity * element.price
-        let isDiscounted = false
+        
+        if (element.offer) {
+            element.itemsRequired = element.offer.number - element.quantity
+        }
+
         if (element.offer && element.quantity >= element.offer.number) {
             subtotalWithDiscount = element.quantity * (element.price * ((100 - element.offer.percent) /100))
-            isDiscounted = true
-        } 
+        }
+
         element.subtotalWithDiscount = subtotalWithDiscount
-        element.isDiscounted = isDiscounted
     });
 }
 
@@ -84,19 +87,22 @@ const printCart = () => {
 
         html = `<thead><tr class="align-middle">
             <th class="col-4"></th>
-            <th class="text-center  col-2">Price</th>
+            <th class="text-center  col">Price</th>
             <th class="text-center col-2">Quantity</th>
-            <th class="text-center  col-2">Total</th>
-            <th class="text-end col-2"></th>
+            <th class="text-center  col">Total</th>
+            <th class="text-end col-3"></th>
         </tr>
         </thead>
         <tbody>`;
 
         cart.forEach(element => {
             let discount = '';
-            if (element.isDiscounted) {
+            if (element.itemsRequired <= 0) {
                 let percent = element.offer.percent
                 discount = ` <span class="badge bg-success">${percent}% Discount</span>`
+            }
+            if (element.itemsRequired > 0) {
+                discount = ` <span class="badge bg-info">${element.itemsRequired} more for discount</span>`
             }
 
             html += `<tr class="align-middle">

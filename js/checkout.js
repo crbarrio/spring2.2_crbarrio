@@ -46,6 +46,6 @@ document.getElementById('form-checkout').addEventListener('submit', function(e) 
 		error += validation.error
 	});
 
-	error > 0 ? alert('Revisa los errores en el formulario') : alert('Formulario enviado correctamente');
+	error > 0 ? alert('Review the errors in the form') : alert('Form submitted successfully');
 
 });
