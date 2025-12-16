@@ -35,7 +35,7 @@ document.getElementById('form-checkout').addEventListener('submit', function(e) 
 
 	let error = 0;
 
-	const formInputs = Array.from(document.getElementById('form-checkout').elements);
+	const formInputs = document.getElementById('form-checkout').querySelectorAll('input');
 	formInputs.forEach(element => {
 		let validation = validate(element.id, element.value)
 		if (validation.error == 1) {
@@ -46,8 +46,6 @@ document.getElementById('form-checkout').addEventListener('submit', function(e) 
 			document.getElementById(element.id).classList.remove('is-invalid')
 		}
 		error += validation.error
-
-
 	});
 
 	error > 0 ? alert('Error') : alert('Submit OK')
