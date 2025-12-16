@@ -77,23 +77,44 @@ const total = 0;
 // Exercise 1
 const buy = (id) => {
     // 1. Loop for to the array products to get the item to add to cart
+    const product = products.find(element => element.id == id)
+    let newItem = {...product}
+
     // 2. Add found product to the cart array
+    let cartProduct = cart.find(element => element.id == id)
+    if (cartProduct) {
+        cartProduct.quantity++
+    } else {
+        newItem.quantity = 1
+        cart.push(newItem)
+    }
+
 }
 
 // Exercise 2
 const cleanCart = () =>  {
-
+    cart.length = 0;
 }
 
 // Exercise 3
 const calculateTotal = () =>  {
     // Calculate total price of the cart using the "cartList" array
+    return cart.reduce((total, item) => total + (item.subtotalWithDiscount ? item.subtotalWithDiscount : item.price * item.quantity), 0)
 }
 
 // Exercise 4
 const applyPromotionsCart = () =>  {
     // Apply promotions to each item in the array "cart"
+    cart.forEach(element => {
+        if (element.offer) {
+            if (element.offer.number >= element.quantity) {
+                let subtotalWithDiscount = element.quantity * (element.price * ((100 - element.offer.percent) /100))
+                element.subtotalWithDiscount = subtotalWithDiscount
+            }
+        }
+    });
 }
+
 
 // Exercise 5
 const printCart = () => {
@@ -110,4 +131,14 @@ const removeFromCart = (id) => {
 
 const open_modal = () =>  {
     printCart();
+}
+
+
+// Event Listeners
+const addToCartButtons = document.getElementsByClassName('add-to-cart')
+for (let i = 0; i < addToCartButtons.length; i++) {
+    addToCartButtons[i].addEventListener('click', () => {
+        buy(addToCartButtons[i].getAttribute('data-product-id'))
+    })
+    
 }
