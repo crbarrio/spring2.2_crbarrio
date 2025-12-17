@@ -2,10 +2,36 @@
 let products = [];
 const cart = [];
 let total = 0;
+const productsContainer = document.getElementById('products-list');
+
+
+const getProductsByCategory = (category) => {
+    //
+}
 
 async function loadProducts() {
     const response = await fetch('db/products.json');
     products = await response.json();
+
+    let categories = await products.map(product => product.type);
+    categories = [...new Set(categories)]
+    
+    let html = ``;
+    categories.forEach(category => {
+        html += `<article class="product-section pt-5" id="${category}">
+            <h2 class="text-center">
+                <i class="fas fa-shopping-basket pe-3" aria-hidden="true"></i>
+                <span>${category}</span>
+            </h2>
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                ${products = getProductsByCategory(category)}
+                </div>
+            </div>
+        </article>`;
+
+    })
+
 }
 
 const buy = (id) => {
