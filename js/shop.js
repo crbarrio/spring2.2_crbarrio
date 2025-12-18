@@ -8,9 +8,20 @@ const productsContainer = document.getElementById('product-list');
 const getProductsByCategory = (productsFiltered) => {
     let html = ``;
     productsFiltered.forEach(product => {
+
+        let offerText = '';
+        if (product.offer) {
+            offerText = `<div class="badge bg-warning position-absolute w-100"> ${product.offer.percent}% off buying ${product.offer.number} </div>`;
+        }
+
+        if (!product.image) {
+            product.image = './images/product.svg';
+        }
+
         html += `<div class="col mb-5">
-            <article class="card product-card h-100">
-                <img class="card-img-top" src="${product.image}" alt="${product.name} product image" loading="lazy" />
+            <article class="card product-card h-100 shadow border-primary border-opacity-25">
+                ${offerText}
+                <img class="card-img-top p-4" src="${product.image}" alt="${product.name} product image" loading="lazy" />
                 <div class="card-body p-4">
                     <div class="text-center">
                         <h3 class="h5 fw-bolder text-capitalize">${product.name}</h3>
@@ -18,8 +29,8 @@ const getProductsByCategory = (productsFiltered) => {
                     </div>
                 </div>
                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                    <div class="text-center">
-                        <button type="button" class="btn btn-outline-dark add-to-cart" data-product-id="${product.id}" aria-label="Add ${product.name} to cart">
+                    <div class="row text-center">
+                        <button type="button" class="btn btn-sm btn-primary add-to-cart text-white" data-product-id="${product.id}" aria-label="Add ${product.name} to cart">
                             Add to cart
                         </button>
                     </div>
@@ -44,7 +55,7 @@ async function loadProducts() {
 
         html += `<article class="product-section pt-5" id="${category}">
             <h2 class="text-center text-teal text-capitalize">
-                <i class="fas fa-shopping-basket pe-3" aria-hidden="true"></i>
+                <i class="fas fa-shopping-basket pe-3 text-primary" aria-hidden="true"></i>
                 <span>${category}</span>
             </h2>
             <div class="container px-4 px-lg-5 mt-5">
@@ -139,10 +150,9 @@ const printCart = () => {
 
         html = `<thead><tr class="align-middle">
             <th class="col-4"></th>
-            <th class="text-center  col">Price</th>
+            <th class="text-center col">Price</th>
             <th class="text-center col-2">Quantity</th>
-            <th class="text-center  col">Total</th>
-            <th class="text-end col-3"></th>
+            <th class="col">Total</th>
         </tr>
         </thead>
         <tbody>`;
@@ -151,19 +161,18 @@ const printCart = () => {
             let discount = '';
             if (element.itemsRequired <= 0) {
                 let percent = element.offer.percent
-                discount = ` <span class="badge bg-success">${percent}% Discount</span>`
+                discount = `<tr><td> <span class="badge bg-success mb-3">${percent}% Discount</span> </td></tr>`
             }
             if (element.itemsRequired > 0) {
-                discount = ` <span class="badge bg-info">${element.itemsRequired} more for discount</span>`
+                discount = `<tr><td> <span class="badge bg-info mb-3">${element.itemsRequired} more for discount</span> </td></tr>`
             }
 
             html += `<tr class="align-middle">
                 <th scope="row">${element.name}</th>
                 <td class="text-center">$${element.price}</td>
                 <td class="text-center"><a href="#" onclick="removeFromCart(${element.id})"> <i class="fa-solid fa-minus me-2 text-danger"></i></a> ${element.quantity} <a href="#" onclick="increaseQuantity(${element.id})"> <i class="fa-solid fa-plus ms-2 text-success"></i></a></td>
-                <td class="text-center">$${element.subtotalWithDiscount.toFixed(2)}</td>
-                <td class="text-end">${discount}</td>
-            </tr>`
+                <td>$${element.subtotalWithDiscount.toFixed(2)}</td>
+            </tr>${discount}`
         });
 
         html += '</tbody>';

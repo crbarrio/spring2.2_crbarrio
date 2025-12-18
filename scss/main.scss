@@ -1,0 +1,23 @@
+
+// Variables overrides de Bootstrap
+
+$card-border-radius: 0.75rem;
+$primary: #04886b;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+// Custom variables
+
+.nav-link:hover {
+    color: $primary;
+}
+
+.btn-outline-primary:hover {
+    color: $text-white;
+}
+
+@media (max-width: 768px) {
+    #cartModal .modal-dialog {
+        font-size: small;
+    }
+}
