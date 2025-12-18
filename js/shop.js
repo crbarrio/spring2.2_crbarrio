@@ -10,8 +10,7 @@ const getProductsByCategory = (productsFiltered) => {
     productsFiltered.forEach(product => {
         html += `<div class="col mb-5">
             <article class="card product-card h-100">
-                <img class="card-img-top" src="${product.image}" alt="${product.name} product image"
-                    loading="lazy" />
+                <img class="card-img-top" src="${product.image}" alt="${product.name} product image" loading="lazy" />
                 <div class="card-body p-4">
                     <div class="text-center">
                         <h3 class="h5 fw-bolder text-capitalize">${product.name}</h3>
@@ -20,8 +19,7 @@ const getProductsByCategory = (productsFiltered) => {
                 </div>
                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                     <div class="text-center">
-                        <button type="button" class="btn btn-outline-dark add-to-cart" data-product-id="${product.id}"
-                            aria-label="Add ${product.name} to cart">
+                        <button type="button" class="btn btn-outline-dark add-to-cart" data-product-id="${product.id}" aria-label="Add ${product.name} to cart">
                             Add to cart
                         </button>
                     </div>
@@ -45,7 +43,7 @@ async function loadProducts() {
         let productsFiltered = products.filter(product => product.type === category);
 
         html += `<article class="product-section pt-5" id="${category}">
-            <h2 class="text-center">
+            <h2 class="text-center text-teal text-capitalize">
                 <i class="fas fa-shopping-basket pe-3" aria-hidden="true"></i>
                 <span>${category}</span>
             </h2>
