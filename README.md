@@ -1,66 +1,130 @@
-# Sprint 2 IT Academy | Shop
+# ShopNow - Online Shopping
 
-## Introduction
+A modern, responsive e-commerce frontend application for shopping grocery, beauty, and clothing products.
 
-A company in the e-commerce sector has asked us for a web application that allows them to offer the purchase of their products through the internet.
+## Features
 
-You will be in charge of setting up an initial demo version of the application for the client: management of the shopping cart and the application of the promotions on the final price. You have 1 week to finish this part of sprint (2.2).
+- **Product Catalog**: Browse products organized by categories (Grocery, Beauty, Clothes)
+- **Shopping Cart**: Add products to cart with real-time updates
+- **Special Offers**: Displays discount offers for bulk purchases
+- **Responsive Design**: Mobile-friendly interface using Bootstrap 5
+- **Checkout System**: Complete checkout flow with order summary
+- **Accessibility**: ARIA labels, skip navigation, and semantic HTML
 
-<br>
+## Technologies Used
 
-## Requirements
+- **HTML5**: Semantic markup structure
+- **CSS3/SCSS**: Custom styling with Bootstrap integration
+- **JavaScript (ES6+)**: Vanilla JavaScript for dynamic functionality
+- **Bootstrap 5.3.8**: Responsive UI framework
+- **Font Awesome 6.4.0**: Icon library
 
+## Project Structure
 
-1. Clone this repo
-```bash
-$ git clone https://github.com/IT-Academy-BCN/starter-code-frontend-shop
+```
+starter-code-frontend-shop/
+├── index.html              # Main HTML page
+├── package.json            # Project dependencies
+├── css/
+│   └── main.css           # Compiled CSS styles
+├── db/
+│   └── products.json      # Product database
+├── images/                # Product and UI images
+├── js/
+│   ├── bootstrap.bundle.min.js
+│   ├── checkout.js        # Checkout functionality
+│   └── shop.js            # Shop and cart logic
+└── scss/
+    └── main.scss          # SCSS source files
 ```
 
-2. Unlink your repo from the itacademy repository.
-(Explanation: You have to upload the code to your GitHub repository, not to the IT Academy. That's why you have to unlink your project from IT Academy GitHub with the following command)
+## Installation
 
+1. Clone the repository:
 ```bash
-$ git remote rm origin
+git clone https://github.com/crbarrio/spring2.2_crbarrio.git
+cd starter-code-frontend-shop
 ```
 
-3. Link your repo to the repository you have to create in your github account
-(Explanation: Now your project is not linked to any remote repository. In order to upload your code, you have to link your project to the new repository created on github.com using the following command)
-
+2. Install dependencies:
 ```bash
-$ git remote add origin <your repo name!>
+npm install
 ```
 
-<br>
+## Usage
 
-## Submission
+### Development
 
-1. It is necessary to upload each exercise in a separate commit. The commit name must clearly indicate its content.
+Simply open `index.html` in your web browser, or use a local development server:
 
-2. Upload the link to your GitHub repository to the virtual campus, enabling your mentor to review and provide feedback.
+```bash
+# Using Python
+python -m http.server 8000
 
+# Using Node.js (http-server)
+npx http-server
+```
 
+Then navigate to `http://localhost:8000` (or the appropriate port).
 
-<br>
+### Building SCSS
 
-## Introduction
+If you make changes to the SCSS files, compile them to CSS:
 
-The statement of the exercise is available on the virtual campus.
+```bash
+# Using Sass compiler
+sass scss/main.scss css/main.css
+```
 
-<br>
+## Product Data Structure
 
+Products are stored in `db/products.json` with the following structure:
 
-## Instructions
+```json
+{
+  "id": 1,
+  "name": "Product Name",
+  "price": 10.5,
+  "type": "grocery|beauty|clothes",
+  "image": "path/to/image.jpg",
+  "offer": {
+    "number": 3,
+    "percent": 20
+  }
+}
+```
 
-You have the following indications from the frontend manager:
+- `offer` field is optional and represents bulk purchase discounts
 
-- You have prepared the base of the project on which you will work: https://github.com/IT-Academy-BCN/starter-code-frontend-shop
+## Features in Detail
 
-- The base of the project on which you will work has already created all the files, and an initial version of the interface, so you can focus on programming the logic.
+### Shopping Cart
+- Add/remove products
+- Real-time price calculation
+- Cart badge counter
+- Modal-based cart view
 
-- As at the moment we don't consume data from a server using an API, we will work with hardcoded data in the application. For the moment we will implement the logic using a small group of 9 products divided in 3 sections.
+### Product Categories
+- Dynamic filtering by category
+- Visual category navigation
+- Product cards with images and prices
 
-- Except for the last level, showing the result of the functions by console is enough.
+### Checkout
+- Order summary
+- Total price calculation with offers applied
+- Form validation
 
-- The logic to implement will be placed in the src/grocery.js and src/checkout.js files. You will see that the built in functions have already been created for you to implement them.
+## Browser Support
 
-- It is forbidden to copy the code, since this way you don't learn anything. Furthermore, as you can see, the second release of sprint 5 is a mini-level test with the mentor, in which you will have to demonstrate live that you have acquired the javascript concepts. Don't worry, if you work on the releases you won't have any problems.
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## Author
+
+Carlos Ramirez
+
+## License
+
+This project is part of IT Academy specialization coursework.
