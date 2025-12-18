@@ -2,11 +2,34 @@
 let products = [];
 const cart = [];
 let total = 0;
-const productsContainer = document.getElementById('products-list');
+const productsContainer = document.getElementById('product-list');
 
 
-const getProductsByCategory = (category) => {
-    //
+const getProductsByCategory = (productsFiltered) => {
+    let html = ``;
+    productsFiltered.forEach(product => {
+        html += `<div class="col mb-5">
+            <article class="card product-card h-100">
+                <img class="card-img-top" src="${product.image}" alt="${product.name} product image"
+                    loading="lazy" />
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <h3 class="h5 fw-bolder text-capitalize">${product.name}</h3>
+                        <p class="price">$${product.price}</p>
+                    </div>
+                </div>
+                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-outline-dark add-to-cart" data-product-id="${product.id}"
+                            aria-label="Add ${product.name} to cart">
+                            Add to cart
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>`;
+    });
+    return html;
 }
 
 async function loadProducts() {
@@ -16,8 +39,11 @@ async function loadProducts() {
     let categories = await products.map(product => product.type);
     categories = [...new Set(categories)]
     
-    let html = ``;
+    let html = '';
     categories.forEach(category => {
+
+        let productsFiltered = products.filter(product => product.type === category);
+
         html += `<article class="product-section pt-5" id="${category}">
             <h2 class="text-center">
                 <i class="fas fa-shopping-basket pe-3" aria-hidden="true"></i>
@@ -25,12 +51,14 @@ async function loadProducts() {
             </h2>
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                ${products = getProductsByCategory(category)}
+                ${getProductsByCategory(productsFiltered)}
                 </div>
             </div>
         </article>`;
 
     })
+
+    productsContainer.innerHTML = html;
 
 }
 

@@ -4,6 +4,7 @@
     "name": "cooking oil",
     "price": 10.5,
     "type": "grocery",
+    "image": "./images/product.svg",
     "offer": {
       "number": 3,
       "percent": 20
@@ -13,13 +14,15 @@
     "id": 2,
     "name": "Pasta",
     "price": 6.25,
-    "type": "grocery"
+    "type": "grocery",
+    "image": "./images/product.svg"
   },
   {
     "id": 3,
     "name": "Instant cupcake mixture",
     "price": 5,
     "type": "grocery",
+    "image": "./images/product.svg",
     "offer": {
       "number": 10,
       "percent": 30
@@ -29,36 +32,42 @@
     "id": 4,
     "name": "All-in-one",
     "price": 260,
-    "type": "beauty"
+    "type": "beauty",
+    "image": "./images/product.svg"
   },
   {
     "id": 5,
     "name": "Zero Make-up Kit",
     "price": 20.5,
-    "type": "beauty"
+    "type": "beauty",
+    "image": "./images/product.svg"
   },
   {
     "id": 6,
     "name": "Lip Tints",
     "price": 12.75,
-    "type": "beauty"
+    "type": "beauty",
+    "image": "./images/product.svg"
   },
   {
     "id": 7,
     "name": "Lawn Dress",
     "price": 15,
-    "type": "clothes"
+    "type": "clothes",
+    "image": "./images/product.svg"
   },
   {
     "id": 8,
     "name": "Lawn-Chiffon Combo",
     "price": 19.99,
-    "type": "clothes"
+    "type": "clothes",
+    "image": "./images/product.svg"
   },
   {
     "id": 9,
     "name": "Toddler Frock",
     "price": 9.99,
-    "type": "clothes"
+    "type": "clothes",
+    "image": "./images/product.svg"
   }
 ]
