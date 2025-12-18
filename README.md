@@ -2,6 +2,10 @@
 
 A modern, responsive e-commerce frontend application for shopping grocery, beauty, and clothing products.
 
+## Live Demo
+
+🔗 [View Live Demo](https://it-springs.crbarrio.es/assets/demos/spring2_2/)
+
 ## Features
 
 - **Product Catalog**: Browse products organized by categories (Grocery, Beauty, Clothes)
