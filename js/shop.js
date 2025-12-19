@@ -152,7 +152,7 @@ const printCart = () => {
             <th class="col-4"></th>
             <th class="text-center col">Price</th>
             <th class="text-center col-2">Quantity</th>
-            <th class="col">Total</th>
+            <th class="text-center col">Total</th>
         </tr>
         </thead>
         <tbody>`;
@@ -170,8 +170,14 @@ const printCart = () => {
             html += `<tr class="align-middle">
                 <th scope="row">${element.name}</th>
                 <td class="text-center">$${element.price}</td>
-                <td class="text-center"><a href="#" onclick="removeFromCart(${element.id})"> <i class="fa-solid fa-minus me-2 text-danger"></i></a> ${element.quantity} <a href="#" onclick="increaseQuantity(${element.id})"> <i class="fa-solid fa-plus ms-2 text-success"></i></a></td>
-                <td>$${element.subtotalWithDiscount.toFixed(2)}</td>
+                <td class="text-center">
+                    <div class="btn-group btn-group-sm text-center" role="group" aria-label="Small button group">
+                        <button type="button" class="btn btn-outline-primary d-flex align-items-center justify-content-center" onclick="removeFromCart(${element.id})"><i class="fa-solid fa-minus"></i></button>
+                        <button type="button" class="btn btn-outline-primary d-flex align-items-center justify-content-center">${element.quantity}</button>
+                        <button type="button" class="btn btn-outline-primary d-flex align-items-center justify-content-center" onclick="increaseQuantity(${element.id})"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </td>
+                <td class="text-center">$${element.subtotalWithDiscount.toFixed(2)}</td>
             </tr>${discount}`
         });
 
